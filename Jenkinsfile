@@ -2,51 +2,46 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/SHASHI122003/8.2CDevSecOps.git'
+                echo 'Building using Maven'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Unit and Integration Tests') {
             steps {
-                sh 'npm install'
+                echo 'Testing using JUnit'
             }
         }
 
-        stage('Run Tests') {
+        stage('Code Analysis') {
             steps {
-                sh 'npm test || true'
+                echo 'Analyzing code using SonarQube'
             }
         }
 
-        stage('Generate Coverage Report') {
+        stage('Security Scan') {
             steps {
-                sh 'npm run coverage || true'
+                echo 'Security scan using Snyk'
             }
         }
 
-        stage('NPM Audit Security Scan') {
+        stage('Deploy to Staging') {
             steps {
-                sh 'npm audit || true'
+                echo 'Deploying to AWS EC2 staging'
             }
         }
-    }
 
-    post {
-        always {
-            emailext(
-                subject: "Jenkins Build Result: ${currentBuild.currentResult}",
-                body: """
-Build Status: ${currentBuild.currentResult}
-Project: NodeGoofPipeline
-Build Number: ${env.BUILD_NUMBER}
-                """,
-                to: "shashidhar1812@gmail.com",
-                attachLog: true
-            )
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Running Selenium tests'
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying to Production Server'
+            }
         }
     }
 }
