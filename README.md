@@ -213,3 +213,4 @@ snyk wizard
 In this application, the default `snyk wizard` answers will fix all the issues.
 When the wizard is done, restart the application and run the exploits again to confirm they are fixed.
 Task 1 reassessment auto trigger
+Auto commit
